@@ -1,0 +1,14 @@
+{
+  "name": "SpeakingToilet",
+  "version": "1.0.0",
+  "description": "My own Discord bot",
+  "main": "bot.js",
+  "author": "talkingtoilet",
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "pubg-api-redis": "^3.6.0",
+    "request": "^2.83.0",
+    "table": "^4.0.2",
+    "winston": "^2.4.0"
+  }
+}
