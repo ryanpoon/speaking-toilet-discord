@@ -1,62 +1,35 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth.json');
-var table = require('table');
-// Configure logger settings
-logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, {
-    colorize: true
+const Discord = require("discord.js");
+const client = new Discord.Client();
+const auth = require("./auth.json")
+const table = require("table")
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+  client.user.setPresence({status: 'online', game: {name: 'try $help'}});
 });
-logger.level = 'debug';
-// Initialize Discord Bot
-var bot = new Discord.Client({
-   token: auth.token,
-   autorun: true
-});
-
-bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
-});
-bot.on('message', function (user, userID, channelID, message, evt) {
-    // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `!`
-    if (message.substring(0, 1) == '$') {
-        var args = message.substring(1).split(' ');
+client.login(auth.token);
+client.on('message', msg => {
+    if (msg.content.substring(0, 1) == '$') {
+        var args = msg.content.substring(1).split(' ');
         var cmd = args[0];
 
         args = args.splice(1);
         switch(cmd) {
             case 'help':
-              bot.sendMessage({
-                to: channelID,
-                message: '```help - shows a list of commands\nree - takes a whole number and makes a "ree" with that many Es\npubg - takes a username in PUBG and displays latest stats```'
-              });
+              msg.reply('```help - shows a list of commands\nree - takes a whole number and makes a "ree" with that many Es\npubg - takes a username in PUBG and displays latest stats```');
               break;
             case 'ree':
                 var send = 'r';
                 var arg = parseInt(args[0]);
                 if (arg != args[0]){
-                  bot.sendMessage({
-                    to: channelID,
-                    message: "Argument must be a whole number"
-                  });
+                  msg.reply("Argument must be a whole number")
                 } else if (arg > 1999){
-                  bot.sendMessage({
-                    to: channelID,
-                    message: "Number cannot exceed 1999"
-                  });
+                  msg.reply("Number cannot exceed 1999")
                 } else {
-
                   console.log(arg);
                   for (i = 0; i < arg; i++) {
                     send = send + 'e';
                   };
-                  bot.sendMessage({
-                      to: channelID,
-                      message: send
-                  });
+                  msg.reply(send)
                 }
             break;
             case 'pubg':
@@ -122,10 +95,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     //           +"%\nK/D Ratio: " + newStats[0].value
                     //           +"\nAvg Dmg: " + newStats[12].value
                               // + "```";
-                    bot.sendMessage({
-                      to: channelID,
-                      message: message
-                    });
+                    msg.reply(message)
                     }
 
                   //console.log(newStats);

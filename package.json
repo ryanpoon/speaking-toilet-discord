@@ -6,6 +6,7 @@
   "author": "talkingtoilet",
   "dependencies": {
     "discord.io": "^2.5.3",
+    "discord.js": "^11.2.1",
     "pubg-api-redis": "^3.6.0",
     "request": "^2.83.0",
     "table": "^4.0.2",
